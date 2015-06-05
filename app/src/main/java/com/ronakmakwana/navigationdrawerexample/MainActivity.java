@@ -48,7 +48,34 @@ public class MainActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
 
-        displayView(position);
+        Fragment fragment = null;
+        String title = getString(R.string.app_name);
+        switch (position) {
+            case 0:
+                fragment = new TimelineFragment();
+                title = getString(R.string.title_timeline);
+
+                break;
+            default:
+                break;
+        }
+
+        if (fragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container, fragment);
+            fragmentTransaction.commit();
+
+
+
+           //getSupportActionBar().setTitle(title);
+
+            // set the toolbar title
+
+            //getSupportActionBar().setTitle(title);
+            // mToolbar.setTitle(title);
+
+        }
     /*if (position == 0) {
         Toast.makeText(this, "TimeLine", Toast.LENGTH_SHORT).show();
     }
@@ -74,37 +101,7 @@ public class MainActivity extends ActionBarActivity
         Toast.makeText(this, "Log Out", Toast.LENGTH_SHORT).show();
     }*/
  }
-    private void displayView(int position) {
-        Fragment fragment = null;
-        String title = getString(R.string.app_name);
-        switch (position) {
-            case 0:
-                fragment = new TimelineFragment();
-                title = getString(R.string.title_timeline);
 
-                break;
-            default:
-                break;
-        }
-
-        if (fragment != null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container, fragment);
-            fragmentTransaction.commit();
-
-
-            mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-            if(mToolbar!=null) {
-                getSupportActionBar().setTitle(title);
-            }
-            // set the toolbar title
-
-            //getSupportActionBar().setTitle(title);
-           // mToolbar.setTitle(title);
-
-        }
-    }
 
     @Override
     public void onBackPressed() {
