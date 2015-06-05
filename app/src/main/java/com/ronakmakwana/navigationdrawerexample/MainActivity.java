@@ -2,16 +2,20 @@ package com.ronakmakwana.navigationdrawerexample;
 
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+
+import com.ronakmakwana.navigationdrawerexample.Fragments.TimelineFragment;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerCallbacks {
+        implements NavigationDrawerCallbacks{
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -27,7 +31,9 @@ public class MainActivity extends ActionBarActivity
 
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-        setSupportActionBar(mToolbar);
+        if(mToolbar!=null) {
+            setSupportActionBar(mToolbar);
+        }
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.fragment_drawer);
@@ -42,8 +48,8 @@ public class MainActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
 
-
-    if (position == 0) {
+        displayView(position);
+    /*if (position == 0) {
         Toast.makeText(this, "TimeLine", Toast.LENGTH_SHORT).show();
     }
     if(position == 1) {
@@ -66,8 +72,39 @@ public class MainActivity extends ActionBarActivity
     }
      if(position == 7) {
         Toast.makeText(this, "Log Out", Toast.LENGTH_SHORT).show();
-    }
+    }*/
  }
+    private void displayView(int position) {
+        Fragment fragment = null;
+        String title = getString(R.string.app_name);
+        switch (position) {
+            case 0:
+                fragment = new TimelineFragment();
+                title = getString(R.string.title_timeline);
+
+                break;
+            default:
+                break;
+        }
+
+        if (fragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container, fragment);
+            fragmentTransaction.commit();
+
+
+            mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+            if(mToolbar!=null) {
+                getSupportActionBar().setTitle(title);
+            }
+            // set the toolbar title
+
+            //getSupportActionBar().setTitle(title);
+           // mToolbar.setTitle(title);
+
+        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -104,7 +141,7 @@ public class MainActivity extends ActionBarActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_logout) {
             return true;
         }
 
